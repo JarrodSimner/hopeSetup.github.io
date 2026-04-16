@@ -1,0 +1,385 @@
+<!-- Notes: 
+Stock items page returns to the cleaning checklist. Need Kev to put logic into that page to return it to the calling page. 
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HRBC Setup Checklist v0.1</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    h1 { text-align: center; }
+
+    li {
+      margin: 12px 0;
+      font-size: 18px;
+    }
+
+    input[type="checkbox"] {
+      transform: scale(1.3);
+      margin-right: 10px;
+    }
+
+    /* Collapsible room styling */
+    details.room {
+      margin-top: 18px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+
+    details.room > summary {
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    details.room > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details.room > summary::before {
+      content: "▸ ";
+    }
+
+    details.room[open] > summary::before {
+      content: "▾ ";
+    }
+
+    .room ul {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 12px;
+    }
+    /* Re-enable bullets ONLY for refill sub-items */
+    .room ul.sub-refill {
+      list-style: disc;
+      padding-left: 28px;
+      margin-top: 6px;
+    }
+    .room ul.sub-refill li {
+    margin: 4px 0;
+    }
+
+    /* Nested lists inside Toilets */
+    .room ul ul {
+      margin-left: 22px;
+      margin-top: 8px;
+    }
+
+    .room ul ul li {
+      font-size: 16px;
+      margin: 8px 0;
+    }
+
+    .clear-btn {
+      margin-bottom: 20px;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background-color: #c62828;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+      transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.clear-btn:hover {
+  background-color: #b71c1c;
+}
+
+.clear-btn:active {
+  transform: scale(0.98);
+}
+
+.button-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+  </style>
+</head>
+
+<body>
+  <h1>HRBC Setup Checklist v0.1</h1>
+
+<div class="button-row">
+  <button id="clearAll" type="button" class="clear-btn">Clear Weekly Checklist</button>
+</div>
+
+  <details class="room">
+    <summary>Outside Set Up</summary>
+    <ul>
+      <li><label><input type="checkbox" data-id="outside-roller-door"> Lift the roller door to the kitchen </label></li>
+      <li><label><input type="checkbox" data-id="outside-urn"> Fill Urn, put it on wooden table and turn it on</label></li>
+      <li><label><input type="checkbox" data-id="outside-aircons"> Set all down stairsair cons to 22°C</label></li>
+      <li><label><input type="checkbox" data-id="outside-marquees"> Set Up Marquees </label></li>
+      <li><label><input type="checkbox" data-id="outside-road-flag"> Put flag out near the road </label></li>
+      <li><label><input type="checkbox" data-id="outside-other-flags"> Put the other two flags out </label></li>
+      <li><label><input type="checkbox" data-id="outside-green-tables"> Set up kids green table and chairs </label></li>
+      <li><label><input type="checkbox" data-id="outside-four-white-tables"> Set up four white tables in front of marquees </label></li>
+      <li><label><input type="checkbox" data-id="outside-single-white-table"> Set up one white table under furtherest marquee </label></li>
+      <li><label><input type="checkbox" data-id="outside-black-tables"> Set up the four black tables with chairs under marquees</label></li>
+      <li><label><input type="checkbox" data-id="outside-white-chairs"> Put white chairs around perimeter of marquees </label></li>
+
+    </ul>
+  </details>
+
+  <details class="room">
+    <summary>Foyer Set Up </summary>
+    <ul>
+      <li><label><input type="checkbox" data-id="foyer-water-cooler"> Check water cooler drip tray is empty</label></li>
+      <li><label><input type="checkbox" data-id="foyer-paper-cups"> Fill paper cup holder near water cooler </label></li>
+      <li><label><input type="checkbox" data-id="foyer-TV"> Turn the TV slides on </label></li>
+      <li><label><input type="checkbox" data-id="foyer-bins"> Check if bin needs emptying </label></li>
+      <li><label><input type="checkbox" data-id="foyer-floor"> Check Cleanliness of floor </label></li>
+      <li><label><input type="checkbox" data-id="foyer-clean-windows"> Clean windows &amp; surfaces if dirty </label></li>
+    </ul>
+  </details>
+
+  <details class="room">
+    <summary>Kitchen Set Up </summary>
+    <ul>
+      <li><label><input type="checkbox" data-id="Kitchen-bins"> Check if bin needs emptying </label></li>
+      <li><label><input type="checkbox" data-id="Kitchen-floor"> Check that floor is clean</label></li>
+    </ul>
+  </details>
+
+  <details class="room">
+    <summary>Toilets Set Up </summary>
+    <ul>
+      <li>
+        <strong>Toilet - Disabled</strong>
+        <ul>
+          <li><label><input type="checkbox" data-id="ToiletDisabled-bins"> Check if bin needs emptying </label></li>
+          <li><label><input type="checkbox" data-id="ToiletDisabled-nappy-bin"> Empty nappy bin if any nappies in it</label></li>
+          <li><label><input type="checkbox" data-id="ToiletDisabled-paper-towels"> Check paper towel dispenser is full </label></li>
+          <li><label><input type="checkbox" data-id="ToiletDisabled-toilet-rolls"> Make sure there's at least 3 spare toilet rolls </label></li>        
+          <li><label><input type="checkbox" data-id="ToiletDisabled-mirror"> Check if mirror needs a clean </label></li>          
+          <li><label><input type="checkbox" data-id="ToiletDisabled-toiet"> Check if toilet needs a clean</label></li>
+          <li><label><input type="checkbox" data-id="ToiletDisabled-soap"> Check if hand soap is at least half full </label></li>
+          <li><label><input type="checkbox" data-id="ToiletDisabled-floor"> Check if floor needs a clean </label></li>
+        </ul>
+      </li>
+
+      <li>
+        <strong>Toilet Female</strong>
+        <ul>
+          <li><label><input type="checkbox" data-id="ToiletFemale-bins"> Check if bin needs emptying </label></li>
+          <li><label><input type="checkbox" data-id="ToiletFemale-paper-towels"> Check paper towel dispenser is full</label></li>          
+          <li><label><input type="checkbox" data-id="ToiletFemale-toilet-rolls"> Make sure there's at least 2 spare toilet rolls in each cubicle</label></li>
+          <li><label><input type="checkbox" data-id="ToiletFemale-pads"> Check there's 4 sanitary pads in each cubicle  </label></li>
+          <li><label><input type="checkbox" data-id="ToiletFemale-mirrors"> Check if mirrors need cleaning </label></li>
+          <li><label><input type="checkbox" data-id="ToiletFemale-toilets"> Check if toilets need a clean</label></li>
+          <li><label><input type="checkbox" data-id="ToiletFemale-soap"> Check if hand soap is at least half full</label></li>
+          <li><label><input type="checkbox" data-id="ToiletFemale-floor"> Check if floor needs a clean </label></li>
+        </ul>
+      </li>
+
+      <li>
+        <strong>Toilet Male</strong>
+        <ul>
+          <li><label><input type="checkbox" data-id="ToiletMale-bins"> Check if bin needs emptying</label></li>
+          <li><label><input type="checkbox" data-id="ToiletMale-paper-towels"> Check paper towel dispenser is full</label></li>          
+          <li><label><input type="checkbox" data-id="ToiletMale-toilet-rolls"> Make sure there's at least 2 spare toilet rolls in each cubicle</label></li>
+          <li><label><input type="checkbox" data-id="ToiletMale-mirrors"> Check if mirrors need cleaning</label></li>
+          <li><label><input type="checkbox" data-id="ToiletMale-soap"> Check if hand soap is at least half full </label></li>
+          <li><label><input type="checkbox" data-id="ToiletMale-floor"> Check if floor needs a clean</label></li>  
+        </ul>
+      </li>
+    </ul>
+  </details>
+
+  <details class="room">
+    <summary>Auditorium</summary>
+    <ul>
+      <li><label><input type="checkbox" data-id="Auditorium-vacuum"> Spot Vacuum if required </label></li>
+      <li><label><input type="checkbox" data-id="Auditorium-chairs"> Set up chairs </label></li>
+      <li><label><input type="checkbox" data-id="Auditorium-reserved-signs"> Put "Reserved for families" signs on rear chairs </label></li>
+      <li><label><input type="checkbox" data-id="Auditorium-Toms-items"> Put Tom's water bottle and sweat rag behind pulpit </label></li>
+      <li><label><input type="checkbox" data-id="Auditorium-Toms-air-con"> Set Tom's air con to 16&deg;C </label></li>
+      <li><label><input type="checkbox" data-id="Auditorium-giving-bags"> Get the 4 giving bags from admin office and put them on front row seats </label></li>
+      <li><label><input type="checkbox" data-id="Auditorium-collection-allocation"> Allocate 2 church members for offering collection</label></li>
+
+    </ul>
+  </details>
+
+  <details class="room">
+    <summary>Upstairs</summary>
+    <ul>
+      <li><label><input type="checkbox" data-id="ParentsRm-nappy-bin"> Empty nappy bin in mothers room if any nappies in it </label></li>
+      <li><label><input type="checkbox" data-id="ParentsRm-audio"> Turn on audio in mothers room </label></li>
+      <li><label><input type="checkbox" data-id="ParentsRm-air-cons"> Turn on all upstairs air cons and set to 22&deg;C </label></li>
+      <li><label><input type="checkbox" data-id="ParentsRm-tidiness"> Check tidiness of mothers room</label></li>
+      <li><label><input type="checkbox" data-id="ParentsRm-vacuum-mothers-room"> Vacuum mothers room if required </label></li>
+      <li><label><input type="checkbox" data-id="ParentsRm-vacuum-other-rooms"> Vacuum the other two rooms if required </label></li>
+      <li><label><input type="checkbox" data-id="ParentsRm-kids-ministry"> Ask the kids ministry team leaders if they need any assistance </label></li>
+      <li><label><input type="checkbox" data-id="ParentsRm-vacuum-other-rooms"> Vacuum the other two rooms if required </label></li>
+      <li><label><input type="checkbox" data-id="ParentsRm-dyson"> Empty Dyson Vacuum</label></li>
+    </ul>
+  </details>
+
+
+<p style="text-align:center;">
+  <a href="https://blueskyranger.github.io/HRBCleaningV2/stock.html" style="display:block; margin-bottom:10px;">
+    View Stock Item Status
+  </a>
+</p>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+
+  import { getAuth, onAuthStateChanged, signInAnonymously }
+    from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
+  import {
+    getFirestore,
+    collection,
+    doc,
+    onSnapshot,
+    getDoc,
+    setDoc,
+    updateDoc,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAwyzLorHfENmCOVr3B1q4FhUn7sI565cI",
+    authDomain: "hrb-cleaning-v2.firebaseapp.com",
+    projectId: "hrb-cleaning-v2",
+    storageBucket: "hrb-cleaning-v2.firebasestorage.app",
+    messagingSenderId: "30392652789",
+    appId: "1:30392652789:web:e4c0fc5202299cc4df46bc"
+  };
+
+const app = initializeApp(firebaseConfig);
+
+// --- Auth ---
+const auth = getAuth(app);
+
+try {
+  const cred = await signInAnonymously(auth);
+  console.log("Signed in. uid:", cred.user.uid);
+} catch (err) {
+  console.error("Anonymous sign-in failed:", err.code, err.message);
+  throw err;
+}
+
+// --- Firestore ---
+const db = getFirestore(app);
+
+const params = new URLSearchParams(location.search);
+const listId = params.get("list") || "setup-team";
+const checklistRef = doc(db, "checklists", listId);
+
+console.log("Listening to checklist:", listId);
+
+// Grab all checkboxes that participate in sync
+const checkboxes = Array.from(
+  document.querySelectorAll('input[type="checkbox"][data-id]')
+);
+
+// Prevent “echo” writes when we apply remote state
+let applyingRemoteState = false;
+
+// Ensure the doc exists
+try {
+  const existing = await getDoc(checklistRef);
+
+  if (!existing.exists()) {
+    await setDoc(checklistRef, {
+      state: {},
+      updatedAt: serverTimestamp()
+    });
+    console.log("📄 Created new checklist doc");
+  }
+} catch (err) {
+  console.error("Initial Firestore read failed:", err.code, err.message);
+}
+
+// 1) Firestore → UI
+onSnapshot(
+  checklistRef,
+  (snap) => {
+    if (!snap.exists()) return;
+
+    const data = snap.data();
+    const state = data.state || {};
+
+    applyingRemoteState = true;
+    for (const cb of checkboxes) {
+      const id = cb.dataset.id;
+      cb.checked = !!state[id];
+    }
+    applyingRemoteState = false;
+
+    console.log("📥 Applied Firestore state");
+  },
+  (err) => {
+    console.error("onSnapshot error:", err.code, err.message);
+  }
+);
+
+// 2) UI → Firestore
+for (const cb of checkboxes) {
+  cb.addEventListener("change", async () => {
+    if (applyingRemoteState) return;
+
+    const id = cb.dataset.id;
+
+    try {
+      await updateDoc(checklistRef, {
+        [`state.${id}`]: cb.checked,
+        updatedAt: serverTimestamp()
+      });
+      console.log("📤 Saved:", id, cb.checked);
+    } catch (err) {
+      console.error("Save failed:", err.code, err.message);
+    }
+  });
+}
+
+  // 3) clear button code
+document.getElementById("clearAll").addEventListener("click", async () => {
+  const confirmed = confirm(
+    "Are you sure you want to clear the weekly checklist? This will untick every box for everyone."
+  );
+
+  if (!confirmed) return;
+
+  const updates = {};
+
+  for (const cb of checkboxes) {
+    cb.checked = false;
+    updates[`state.${cb.dataset.id}`] = false;
+  }
+
+  try {
+    await updateDoc(checklistRef, {
+      ...updates,
+      updatedAt: serverTimestamp()
+    });
+    console.log("🧹 Cleared all checkboxes");
+  } catch (err) {
+    console.error("Clear all failed:", err.code, err.message);
+  }
+});
+
+</script>
+
+</body>
+</html>
