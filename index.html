@@ -137,7 +137,9 @@ https://jarrodsimner.github.io/hopeSetup.github.io/-->
 
   </div>
   <text style="display:block;  margin-bottom:10px; text-align: center;"><em> Only one person to press this button prior to commencing morning set up </em></text>
-
+<p id="lastClearedAt" style="text-align: center; margin-top: 6px; font-size: 14px; color: #555;">
+  Last cleared: Never
+</p>
   <details class="room main">
     <summary>Morning Set Up</summary>
     <details class="room">
@@ -732,6 +734,8 @@ https://jarrodsimner.github.io/hopeSetup.github.io/-->
       console.error("Initial Firestore read failed:", err.code, err.message);
     }
 
+    const lastClearedEl = document.getElementById("lastClearedAt");
+
     // 1) Firestore → UI
     onSnapshot(
       checklistRef,
@@ -748,6 +752,19 @@ https://jarrodsimner.github.io/hopeSetup.github.io/-->
         }
         applyingRemoteState = false;
 
+
+
+        if (data.lastClearedAt?.toDate) {
+          const clearedDate = data.lastClearedAt.toDate();
+          lastClearedEl.textContent =
+            "Last cleared: " +
+            clearedDate.toLocaleString("en-AU", {
+              dateStyle: "medium",
+              timeStyle: "short"
+            });
+        } else {
+          lastClearedEl.textContent = "Last cleared: Never";
+        }
         console.log("📥 Applied Firestore state");
       },
       (err) => {
@@ -792,7 +809,8 @@ https://jarrodsimner.github.io/hopeSetup.github.io/-->
       try {
         await updateDoc(checklistRef, {
           ...updates,
-          updatedAt: serverTimestamp()
+          updatedAt: serverTimestamp(),
+            lastClearedAt: serverTimestamp()
         });
         console.log("🧹 Cleared all checkboxes");
       } catch (err) {
