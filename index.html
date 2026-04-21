@@ -137,7 +137,7 @@ https://jarrodsimner.github.io/hopeSetup.github.io/-->
 
   </div>
   <text style="display:block;  margin-bottom:10px; text-align: center;"><em> Only one person to press this button prior to commencing morning set up </em></text>
-<p id="lastClearedAt" style="text-align: center; margin-top: 6px; font-size: 14px; color: #555;">
+<p id="lastClearedAt" style="text-align: center; margin-bottom: 60px; margin-top: 6px; font-size: 14px; color: #555;">
   Last cleared: Never
 </p>
   <details class="room main">
@@ -753,7 +753,7 @@ https://jarrodsimner.github.io/hopeSetup.github.io/-->
         applyingRemoteState = false;
 
 
-
+        // Show last check sheet cleared time
         if (data.lastClearedAt?.toDate) {
           const clearedDate = data.lastClearedAt.toDate();
           lastClearedEl.textContent =
